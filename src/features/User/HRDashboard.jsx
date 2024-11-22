@@ -1,8 +1,11 @@
+import LogoutButton from "../../components/LogoutButton"
+
 const HRDashboard = () => {
     return (
-    <>
-    <h1>Hello HR</h1>
-    </>
+        <div>
+            <h1>HR Dashboard</h1>
+            <LogoutButton />
+        </div>
     )
 }
 

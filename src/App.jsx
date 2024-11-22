@@ -1,5 +1,5 @@
 import './App.css'
-import { Routes, Route, Navigate, BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './features/User/auth/Login'
 import HRDashboard from './features/User/HRDashboard'
 import Register from './features/User/auth/Register'
@@ -10,11 +10,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='' element={<Navigate to="/HR-dashboard"/>}></Route>
+        <Route path='' element={<Navigate to="/login"/>}></Route>
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/register' element={<Register/>}></Route>
-        <Route path='/HR-dashboard' element={<HRDashboard/>}></Route>
-        <Route path='/Employee-dash' element={<EmployeeDashboard/>}></Route>
+        <Route path='/hr-dashboard' element={<HRDashboard/>}></Route>
+        <Route path='/employee-dashboard' element={<EmployeeDashboard/>}></Route>
       </Routes>
     </BrowserRouter>
   )
