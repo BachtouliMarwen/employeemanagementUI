@@ -21,19 +21,26 @@ export const createEmployee = createAsyncThunk('employees/create', async (employ
 
 export const updateEmployee = createAsyncThunk('employees/update', async ({ id, employee }, thunkAPI) => {
   try {
-    return await userAPI.updateEmployee(id, employee, token);
+      const response = await userAPI.updateEmployee(id, employee, token);
+      console.log('Updated employee:', response); // Log success
+      return response;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data);
+      console.error('Update employee failed:', error.response?.data || error.message);
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
   }
 });
 
 export const deleteEmployee = createAsyncThunk('employees/delete', async (id, thunkAPI) => {
   try {
-    return await userAPI.deleteEmployee(id, token);
+      await userAPI.deleteEmployee(id, token);
+      console.log(`Deleted employee with ID: ${id}`); // Log success
+      return id; // Return the deleted ID
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data);
+      console.error('Delete employee failed:', error.response?.data || error.message);
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
   }
 });
+
 
 const userSlice = createSlice({
   name: 'employees',
@@ -63,8 +70,8 @@ const userSlice = createSlice({
         state.employees[index] = action.payload;
       })
       .addCase(deleteEmployee.fulfilled, (state, action) => {
-        state.employees = state.employees.filter((emp) => emp.id !== action.payload.id);
-      });
+        state.employees = state.employees.filter((emp) => emp.id !== action.payload);
+    });
   },
 });
 

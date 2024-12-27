@@ -1,24 +1,27 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteEmployee } from '../User/userSlice';
+import { fetchEmployees, deleteEmployee } from '../User/userSlice';
 import DataTable from 'react-data-table-component';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import SidebarMenu from '../../components/SideBarMenu';
 import ConfirmationModal from '../../components/ConfirmationModal';
+import { useNavigate } from 'react-router-dom';
 
 const EmployeeManagement = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { employees, loading, error } = useSelector((state) => state.employees);
-
     const [deleteId, setDeleteId] = useState(null);
 
-    const handleAdd = () => navigate('/hr/employees/add');
-    const handleEdit = (id) => navigate(`/hr/employees/edit/${id}`);
+    useEffect(() => {
+        dispatch(fetchEmployees()); // Fetch employees on mount
+    }, [dispatch]);
+
+    const handleAdd = () => navigate('/hr/employees/add'); // Redirect to add page
+    const handleEdit = (id) => navigate(`/hr/employees/edit/${id}`); // Redirect to edit page
     const handleDelete = (id) => setDeleteId(id);
     const confirmDelete = () => {
-        dispatch(deleteEmployee(deleteId));
+        dispatch(deleteEmployee(deleteId)).then(() => dispatch(fetchEmployees())); // Re-fetch list
         setDeleteId(null);
     };
 
@@ -50,7 +53,7 @@ const EmployeeManagement = () => {
                     <h1 className="text-2xl font-bold">Employee Management</h1>
                     <button
                         onClick={handleAdd}
-                        className="bg-indigo-500 text-white px-4 py-2 rounded"
+                        className="bg-indigo-500 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-semibold"
                     >
                         Add Employee
                     </button>

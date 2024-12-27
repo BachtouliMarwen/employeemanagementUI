@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom';
-import LogoutButton from './LogoutButton'
+import LogoutButton from './LogoutButton';
 
 const SidebarMenu = () => {
     const menuItems = [
-        { name: 'Employees', path: '/hr/employees' },
-        { name: 'Leaves', path: '/leaves' },
-        { name: 'Timesheets', path: '/timesheets' },
-        { name: 'Evaluations', path: '/evaluations' },
+        { name: 'Employees', path: '/hr/employees' }, // Absolute path
+        { name: 'Leaves', path: '/hr/leaves' },       // Absolute path
+        { name: 'Timesheets', path: '/hr/timesheets' }, // Absolute path
+        { name: 'Evaluations', path: '/hr/evaluations' }, // Absolute path
     ];
 
     return (
@@ -28,7 +28,7 @@ const SidebarMenu = () => {
                     </li>
                 ))}
             </ul>
-            <LogoutButton/>
+            <LogoutButton />
         </div>
     );
 };

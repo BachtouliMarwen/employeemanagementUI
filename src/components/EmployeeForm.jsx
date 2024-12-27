@@ -13,8 +13,10 @@ const EmployeeForm = ({ editingId }) => {
 
     useEffect(() => {
         if (editingId) {
-            const employee = employees.find((emp) => emp.id === editingId);
-            setForm(employee || { firstName: '', lastName: '', email: '', phone: '' });
+            const employee = employees.find((emp) => emp.id === parseInt(editingId, 10));
+            if (employee) {
+                setForm(employee);
+            }
         }
     }, [editingId, employees]);
 
@@ -26,11 +28,12 @@ const EmployeeForm = ({ editingId }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (editingId) {
-            dispatch(updateEmployee({ id: editingId, employee: form }));
+            dispatch(updateEmployee({ id: editingId, employee: form })).then(() =>
+                navigate('/hr/employees')
+            );
         } else {
-            dispatch(createEmployee(form));
+            dispatch(createEmployee(form)).then(() => navigate('/hr/employees'));
         }
-        navigate('/hr/employees');
     };
 
     return (
@@ -75,7 +78,7 @@ const EmployeeForm = ({ editingId }) => {
 };
 
 EmployeeForm.propTypes = {
-    editingId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    editingId: PropTypes.string,
 };
 
 export default EmployeeForm;
